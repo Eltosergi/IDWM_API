@@ -12,7 +12,7 @@ namespace API.src.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int Total { get; set; }  = 0;
-        
+        public int Total { get; set; } = 0;
+
     }
 }

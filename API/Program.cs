@@ -1,4 +1,5 @@
 using API.src.Data;
+
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +14,7 @@ var app = builder.Build();
 await using (var scope = app.Services.CreateAsyncScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AplicationDbContext>();
-    await dbContext.Database.MigrateAsync(); 
+    await dbContext.Database.MigrateAsync();
 
 }
 

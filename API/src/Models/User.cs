@@ -12,26 +12,26 @@ namespace API.src.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
+
         [Required]
         public required string Name { get; set; } = string.Empty;
-        
+
         [Required]
         public required string LastName { get; set; } = string.Empty;
-        
-        
+
+
         public string Phone { get; set; } = string.Empty;
-        
+
         [Required]
         public required DateOnly BirthDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
         [Required]
         [EmailAddress]
         public required string Email { get; set; } = string.Empty;
-        
+
         [Required]
         public required string Password { get; set; } = string.Empty;
-        
+
         public bool IsActive { get; set; } = true;
         public DateOnly lastLogin { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 

@@ -12,7 +12,7 @@ namespace API.src.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
+
         [Required]
         public required string Name { get; set; } = string.Empty;
         [Required]
@@ -23,15 +23,15 @@ namespace API.src.Models
 
         public int ConditionId { get; set; }
         [ForeignKey("ConditionId")]
-        public Condition? Condition { get; set; } 
+        public Condition? Condition { get; set; }
 
-        public int ImageId { get; set; } 
+        public int ImageId { get; set; }
         [ForeignKey("ImageId")]
-        public Image? Image { get; set; } 
+        public Image? Image { get; set; }
 
         public List<Image> Images { get; set; } = new List<Image>();
-        public int? BrandId { get; set; } 
+        public int? BrandId { get; set; }
         [ForeignKey("BrandId")]
-        public Brand? Brand { get; set; }     
+        public Brand? Brand { get; set; }
     }
 }

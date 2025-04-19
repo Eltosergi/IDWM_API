@@ -17,12 +17,12 @@ namespace API.src.Models
         public DateTime OrderDate { get; set; } = DateTime.Now;
 
         public required int AddressId { get; set; }
-        [ForeignKey("AddressId")] 
+        [ForeignKey("AddressId")]
         public Address? Address { get; set; }
 
         public required int HistoricCartId { get; set; }
         [ForeignKey("HistoricCartId")]
         public HistoricCart? HistoricCart { get; set; }
-         
+
     }
 }

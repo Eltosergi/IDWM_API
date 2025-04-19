@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.src.Data
 {
-    public class AplicationDbContext:DbContext
+    public class AplicationDbContext : DbContext
     {
         public AplicationDbContext(DbContextOptions<AplicationDbContext> options) : base(options)
         {
@@ -39,12 +39,12 @@ namespace API.src.Data
 
             modelBuilder.Entity<HistoricCartProduct>()
                 .HasKey(hcp => new { hcp.HistoricCartId, hcp.ProductId });
-            
+
             modelBuilder.Entity<ProductCategory>()
                 .HasKey(pc => new { pc.ProductId, pc.CategoryId });
-            
-            
+
+
         }
-        
+
     }
 }
