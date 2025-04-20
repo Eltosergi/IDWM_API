@@ -36,7 +36,8 @@ namespace API.src.Models
         public DateOnly lastLogin { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
 
-        public int RoleId { get; set; }
+        [Required]
+        public required int RoleId { get; set; }
         [ForeignKey("RoleId")]
         public Role Role { get; set; } = new Role();
 

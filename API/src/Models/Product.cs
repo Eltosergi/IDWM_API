@@ -25,9 +25,9 @@ namespace API.src.Models
         [ForeignKey("ConditionId")]
         public Condition? Condition { get; set; }
 
-        public int ImageId { get; set; }
-        [ForeignKey("ImageId")]
-        public Image? Image { get; set; }
+        //public int ImageId { get; set; }
+        //[ForeignKey("ImageId")]
+        //public Image? Image { get; set; }
 
         public List<Image> Images { get; set; } = new List<Image>();
         public int? BrandId { get; set; }
