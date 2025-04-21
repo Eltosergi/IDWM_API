@@ -38,5 +38,5 @@ namespace API.src.Repository
             return !await _context.Products.AnyAsync();
         }
     }
-    
+
 }

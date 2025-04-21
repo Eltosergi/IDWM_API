@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.src.Repository
 {
-    public class BrandRepository: IBrandRepository
+    public class BrandRepository : IBrandRepository
     {
         private readonly AplicationDbContext _context;
 
@@ -32,5 +32,5 @@ namespace API.src.Repository
             return !await _context.Brands.AnyAsync();
         }
     }
-    
+
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.src.Repository
 {
-    public class UserRepository:IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly AplicationDbContext _context;
         public UserRepository(AplicationDbContext context)

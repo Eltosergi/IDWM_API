@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.src.Repository
 {
-    public class AddressRepository: IAddressRepository
+    public class AddressRepository : IAddressRepository
     {
         private readonly AplicationDbContext _context;
 
@@ -41,7 +41,7 @@ namespace API.src.Repository
 
                 await _context.Addresses.AddAsync(address);
                 var result = await _context.SaveChangesAsync();
-                
+
                 if (result == 0)
                 {
                     Console.WriteLine("No se guardó la dirección en la base de datos.");

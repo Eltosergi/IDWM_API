@@ -30,7 +30,7 @@ namespace API.src.Data
 
             _faker = new Faker("es_MX");
         }
-        
+
         public async Task Seed()
         {
             await SeedRoles();
@@ -38,7 +38,7 @@ namespace API.src.Data
             await SeedBrands();
             await SeedConditions();
             await SeedProducts();
-            
+
         }
         public async Task SeedRoles()
         {
@@ -57,9 +57,9 @@ namespace API.src.Data
                     {
                         Name = f.Name.FirstName(),
                         LastName = f.Name.LastName(),
-                        BirthDate = DateOnly.FromDateTime(f.Date.Past(80, DateTime.Today.AddYears(-18))), 
+                        BirthDate = DateOnly.FromDateTime(f.Date.Past(80, DateTime.Today.AddYears(-18))),
                         Email = f.Internet.Email(),
-                        Password = f.Internet.Password(8, false, "", "A1!"),  
+                        Password = f.Internet.Password(8, false, "", "A1!"),
                         RoleId = f.PickRandom(new[] { 1, 2 })
                     })
                     .Generate(10);
@@ -78,9 +78,9 @@ namespace API.src.Data
                 var brandFaker = new Faker<string>()
                     .CustomInstantiator(f => f.Company.CompanyName());
 
-                var fakeBrands = brandFaker.Generate(10); 
+                var fakeBrands = brandFaker.Generate(10);
 
-                foreach (var brand in fakeBrands.Distinct()) 
+                foreach (var brand in fakeBrands.Distinct())
                 {
                     await _brandRepository.AddBrand(brand);
                 }
@@ -118,7 +118,7 @@ namespace API.src.Data
         }
 
 
-        
+
 
     }
 }

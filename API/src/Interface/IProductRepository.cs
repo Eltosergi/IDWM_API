@@ -11,7 +11,7 @@ namespace API.src.Interface
     {
         public Task<bool> isEmpty();
         public Task<bool> CreateProduct(CreateProductDTO product);
-        
+
 
     }
 }

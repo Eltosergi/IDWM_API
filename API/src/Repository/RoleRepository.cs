@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.src.Repository
 {
-    public class RoleRepository:IRoleRepository
+    public class RoleRepository : IRoleRepository
     {
         private readonly AplicationDbContext _context;
         public RoleRepository(AplicationDbContext context)
@@ -26,7 +26,7 @@ namespace API.src.Repository
             {
                 return false;
             }
-            
+
             var role = new Role { Name = roleName };
             _context.Roles.Add(role);
             var result = await _context.SaveChangesAsync();
@@ -39,5 +39,5 @@ namespace API.src.Repository
             return !await _context.Roles.AnyAsync();
         }
     }
-    
+
 }

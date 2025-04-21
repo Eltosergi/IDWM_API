@@ -9,9 +9,9 @@ namespace API.src.DTOs
     public class CreateUserDTO
     {
         [Required]
-        public required string Name { get; set; } 
+        public required string Name { get; set; }
         [Required]
-        public required string LastName { get; set; } 
+        public required string LastName { get; set; }
         [Required]
         public required DateOnly BirthDate { get; set; }
         [Required]
@@ -20,7 +20,7 @@ namespace API.src.DTOs
         [Required]
         public required string Password { get; set; }
         [Required]
-        public int RoleId { get; set; } = 1; 
+        public int RoleId { get; set; } = 1;
 
     }
 }
