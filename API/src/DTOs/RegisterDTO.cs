@@ -11,7 +11,7 @@ namespace API.src.DTOs
         [Required(ErrorMessage = "El nombre es obligatorio.")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "El nombre debe tener al menos 3 caracteres.")]
         public required string Name { get; set; }
-        
+
         [Required(ErrorMessage = "El apellido es obligatorio.")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "El apellido debe tener al menos 3 caracteres.")]
         public required string LastName { get; set; }
@@ -25,7 +25,7 @@ namespace API.src.DTOs
 
         [Required(ErrorMessage = "La fecha de nacimiento es obligatoria.")]
         public required DateOnly BirthDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-        
+
         [Required(ErrorMessage = "La contraseña es obligatoria.")]
         [StringLength(100, MinimumLength = 8, ErrorMessage = "La contraseña debe tener al menos 8 caracteres.")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]|\\:;\""<>,.?/~`]).+$",
@@ -34,6 +34,6 @@ namespace API.src.DTOs
 
         [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
         public required string ConfirmPassword { get; set; }
-        
+
     }
 }

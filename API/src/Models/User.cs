@@ -17,7 +17,7 @@ namespace API.src.Models
         [Required]
         public required string LastName { get; set; }
         [Required]
-        public required DateOnly BirthDate { get; set; }    
+        public required DateOnly BirthDate { get; set; }
 
         public DateTime RegisteredAt { get; set; } = DateTime.UtcNow;
         public DateTime lastLogin { get; set; } = DateTime.UtcNow;
@@ -31,7 +31,7 @@ namespace API.src.Models
         //Prefered Address
         public int? AddressId { get; set; }
         [ForeignKey("AddressId")]
-        public Address? PreferredAddress  { get; set; }
+        public Address? PreferredAddress { get; set; }
 
         //User Cart
         public Cart Cart { get; set; } = new Cart();

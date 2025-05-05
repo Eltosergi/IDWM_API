@@ -27,12 +27,12 @@ namespace API.src.Models
         public Condition? Condition { get; set; }
 
         //Imagen Preferencial del producto
-        public int ImageId { get; set; } 
+        public int ImageId { get; set; }
         [ForeignKey("ImageId")]
         public Image? Image { get; set; }
         //Imagenes del producto
         public ICollection<Image> Images { get; set; } = new List<Image>();
-        
+
         public int? BrandId { get; set; }
         [ForeignKey("BrandId")]
         public Brand? Brand { get; set; }

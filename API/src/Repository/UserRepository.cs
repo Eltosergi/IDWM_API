@@ -48,16 +48,16 @@ namespace API.src.Repository
         {
 
             var user = UserMapper.RegisterToUser(newUser);
-                
+
             if (string.IsNullOrEmpty(newUser.Password) || string.IsNullOrEmpty(newUser.ConfirmPassword))
             {
                 throw new ArgumentException("La contraseña y la confirmación son requeridas");
-             }
+            }
 
             var createUser = await _userManager.CreateAsync(user, newUser.Password);
 
             if (!createUser.Succeeded)
-            {  
+            {
                 throw new InvalidOperationException("Error al crear el usuario: " + string.Join(", ", createUser.Errors.Select(e => e.Description)));
             }
 
@@ -94,7 +94,7 @@ namespace API.src.Repository
                 throw new ArgumentException("Correo o contraseña inválidos");
             }
 
-                
+
             user.lastLogin = DateTime.UtcNow;
             await _userManager.UpdateAsync(user);
 

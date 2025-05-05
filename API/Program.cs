@@ -27,7 +27,8 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 builder.Services.AddIdentity<User, Role>().AddEntityFrameworkStores<AplicationDbContext>();
-builder.Services.AddAuthentication(options => {
+builder.Services.AddAuthentication(options =>
+{
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -46,7 +47,7 @@ builder.Services.AddAuthentication(options => {
     };
 });
 
-builder.Services.AddDbContext<AplicationDbContext>(options =>options.UseSqlite(connectionString));
+builder.Services.AddDbContext<AplicationDbContext>(options => options.UseSqlite(connectionString));
 
 builder.Services.AddTransient<Seeder>();
 
@@ -63,7 +64,7 @@ await using (var scope = app.Services.CreateAsyncScope())
     await dbContext.Database.MigrateAsync();
 
     var seeder = services.GetRequiredService<Seeder>();
-   await seeder.Seed();
+    await seeder.Seed();
 }
 
 app.Run();

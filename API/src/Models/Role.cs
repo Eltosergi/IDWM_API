@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace API.src.Models
 {
-    public class Role:IdentityRole<int>
+    public class Role : IdentityRole<int>
     {
     }
 }

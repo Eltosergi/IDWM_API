@@ -9,6 +9,6 @@ namespace API.src.Interface
 {
     public interface ITokenService
     {
-         string GenerateToken(User user, string Role );
+        string GenerateToken(User user, string Role);
     }
 }

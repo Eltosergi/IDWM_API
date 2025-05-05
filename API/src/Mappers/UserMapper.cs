@@ -32,7 +32,7 @@ namespace API.src.Mappers
                 LastAccess = user.lastLogin,
                 IsActive = user.IsActive
             };
-        
+
         public static User CreateUserToUser(CreateUserDTO dto) =>
             new()
             {

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.src.Data
 {
-    public class AplicationDbContext(DbContextOptions<AplicationDbContext> options) : IdentityDbContext<User,Role,int>(options)
+    public class AplicationDbContext(DbContextOptions<AplicationDbContext> options) : IdentityDbContext<User, Role, int>(options)
     {
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Cart> Carts { get; set; }
@@ -22,7 +22,7 @@ namespace API.src.Data
         public DbSet<Condition> Conditions { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Image> Images { get; set; }
-  
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

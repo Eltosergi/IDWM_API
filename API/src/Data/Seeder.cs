@@ -51,7 +51,7 @@ namespace API.src.Data
                 };
 
                 await _userRepository.CreateAdmin(AdminUser);
-            }   
+            }
         }
 
         public async Task SeedBrands()

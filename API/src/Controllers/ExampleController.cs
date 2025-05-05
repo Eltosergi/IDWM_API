@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.src.Controllers
 {
-    public class ExampleController:BaseController
+    public class ExampleController : BaseController
     {
         [Authorize]
         [HttpGet("example")]
@@ -27,7 +27,7 @@ namespace API.src.Controllers
         [HttpGet("exampleUser")]
         public IActionResult GetExampleUser()
         {
-            
+
             if (User?.Identity?.IsAuthenticated != true)
             {
                 return StatusCode(401, new { message = "Logeate primero si no eres nadie" });

@@ -13,7 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.src.Services
 {
-    public class TokenService:ITokenService
+    public class TokenService : ITokenService
     {
         private readonly IConfiguration _config;
         private readonly SymmetricSecurityKey _key;
