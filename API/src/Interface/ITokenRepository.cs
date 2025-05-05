@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using API.src.Models;
+
 namespace API.src.Interface
 {
-    public interface IRoleRepository
+    public interface ITokenService
     {
-        Task<bool> isEmpty();
-        Task<bool> createRole(string roleName);
+         string GenerateToken(User user, string Role );
     }
 }

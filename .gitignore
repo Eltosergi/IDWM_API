@@ -5,6 +5,8 @@
 
 appsettings.json
 
+#Visual Paradigm
+*.bak*
 
 # dotenv files
 .env

@@ -5,11 +5,16 @@ using System.Threading.Tasks;
 
 using API.src.DTOs;
 
+using Microsoft.AspNetCore.Mvc;
+
 namespace API.src.Interface
 {
     public interface IUserRepository
     {
         Task<bool> isEmpty();
-        Task<bool> createUser(CreateUserDTO userDTO);
+        Task<bool> CreateAdmin(CreateUserDTO userDTO);
+
+        Task<AuthenticatedUserDto> RegisterUserAsync(RegisterDTO newUser);
+        Task<AuthenticatedUserDto> LoginUserAsync(LoginDTO loginDto);
     }
 }

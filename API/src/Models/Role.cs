@@ -5,14 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Identity;
+
 namespace API.src.Models
 {
-    public class Role
+    public class Role:IdentityRole<int>
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        [Required]
-        public string Name { get; set; } = string.Empty;
     }
 }

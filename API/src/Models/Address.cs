@@ -10,21 +10,21 @@ namespace API.src.Models
         public int Id { get; set; }
 
         [Required]
-        public required string Street { get; set; } = string.Empty;
+        public required string Street { get; set; }
 
         [Required]
         public required int Number { get; set; }
 
         [Required]
-        public required string Commune { get; set; } = string.Empty;
+        public required string Commune { get; set; }
 
         [Required]
-        public required string Region { get; set; } = string.Empty;
+        public required string Region { get; set; }
 
         [Required]
         public required int PostalCode { get; set; }
 
-        public string? Department { get; set; } = string.Empty;
+        public string? Department { get; set; }
 
 
     }

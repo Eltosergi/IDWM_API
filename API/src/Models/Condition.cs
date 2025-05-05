@@ -11,7 +11,7 @@ namespace API.src.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; } = 0;
+        public int Id { get; set; }
         [Required]
         public required string Name { get; set; }
 

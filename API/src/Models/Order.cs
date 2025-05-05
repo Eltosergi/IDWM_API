@@ -11,18 +11,22 @@ namespace API.src.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; } = 0;
+        public int Id { get; set; }
         [Required]
-        public required string OrderNumber { get; set; } = string.Empty;
-        public DateTime OrderDate { get; set; } = DateTime.Now;
+        public required string OrderNumber { get; set; }
+        [Required]
+        public required Cart Cart { get; set; }
 
+        [Required]
         public required int AddressId { get; set; }
         [ForeignKey("AddressId")]
         public Address? Address { get; set; }
 
-        public required int HistoricCartId { get; set; }
-        [ForeignKey("HistoricCartId")]
-        public HistoricCart? HistoricCart { get; set; }
+        public DateTime OrderDate { get; set; } = DateTime.Now;
+
+        
+
+        
 
     }
 }

@@ -14,9 +14,10 @@ namespace API.src.Models
         public int Id { get; set; }
 
         [Required]
-        public required string Name { get; set; } = string.Empty;
+        public required string Name { get; set; }
         [Required]
-        public required int Price { get; set; } = 0;
+        public required int Price { get; set; }
+
         public string Description { get; set; } = string.Empty;
         public int Stock { get; set; } = 0;
         public bool IsActive { get; set; } = false;
@@ -25,13 +26,17 @@ namespace API.src.Models
         [ForeignKey("ConditionId")]
         public Condition? Condition { get; set; }
 
-        //public int ImageId { get; set; }
-        //[ForeignKey("ImageId")]
-        //public Image? Image { get; set; }
-
-        public List<Image> Images { get; set; } = new List<Image>();
+        //Imagen Preferencial del producto
+        public int ImageId { get; set; } 
+        [ForeignKey("ImageId")]
+        public Image? Image { get; set; }
+        //Imagenes del producto
+        public ICollection<Image> Images { get; set; } = new List<Image>();
+        
         public int? BrandId { get; set; }
         [ForeignKey("BrandId")]
         public Brand? Brand { get; set; }
+
+        public ICollection<Category> Categories { get; set; } = new List<Category>();
     }
 }

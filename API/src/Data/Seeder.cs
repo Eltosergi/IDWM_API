@@ -12,7 +12,6 @@ namespace API.src.Data
 {
     public class Seeder
     {
-        private readonly IRoleRepository _roleRepository;
         private readonly IUserRepository _userRepository;
         private readonly IBrandRepository _brandRepository;
         private readonly IConditionRepository _conditionRepository;
@@ -20,10 +19,9 @@ namespace API.src.Data
         private readonly IProductRepository _productRepository;
         private readonly Faker _faker;
 
-        public Seeder(IRoleRepository roleRepository, IUserRepository userRepository, IBrandRepository brandRepository, IConditionRepository conditionRepository, IProductRepository productRepository)
+        public Seeder(IUserRepository userRepository, IBrandRepository brandRepository, IConditionRepository conditionRepository, IProductRepository productRepository)
         {
             _productRepository = productRepository;
-            _roleRepository = roleRepository;
             _userRepository = userRepository;
             _brandRepository = brandRepository;
             _conditionRepository = conditionRepository;
@@ -33,42 +31,27 @@ namespace API.src.Data
 
         public async Task Seed()
         {
-            await SeedRoles();
-            await SeedUsers();
             await SeedBrands();
             await SeedConditions();
-            await SeedProducts();
+            await SeedUsers();
 
         }
-        public async Task SeedRoles()
-        {
-            if (await _roleRepository.isEmpty())
-            {
-                await _roleRepository.createRole("Admin");
-                await _roleRepository.createRole("User");
-            }
-        }
+
         public async Task SeedUsers()
         {
             if (await _userRepository.isEmpty())
             {
-                var users = new Faker<CreateUserDTO>()
-                    .CustomInstantiator(f => new CreateUserDTO
-                    {
-                        Name = f.Name.FirstName(),
-                        LastName = f.Name.LastName(),
-                        BirthDate = DateOnly.FromDateTime(f.Date.Past(80, DateTime.Today.AddYears(-18))),
-                        Email = f.Internet.Email(),
-                        Password = f.Internet.Password(8, false, "", "A1!"),
-                        RoleId = f.PickRandom(new[] { 1, 2 })
-                    })
-                    .Generate(10);
-
-                foreach (var user in users)
+                var AdminUser = new CreateUserDTO
                 {
-                    await _userRepository.createUser(user);
-                }
-            }
+                    Name = "Admin",
+                    LastName = "Admin",
+                    BirthDate = DateOnly.FromDateTime(DateTime.Now),
+                    Email = "Admin@Admin.com",
+                    Password = "@Admin1234"
+                };
+
+                await _userRepository.CreateAdmin(AdminUser);
+            }   
         }
 
         public async Task SeedBrands()
@@ -95,30 +78,6 @@ namespace API.src.Data
                 await _conditionRepository.AddCondition("Usado");
             }
         }
-
-        public async Task SeedProducts()
-        {
-            if (await _productRepository.isEmpty())
-            {
-                var products = new Faker<CreateProductDTO>()
-                    .CustomInstantiator(f => new CreateProductDTO
-                    {
-                        Name = f.Commerce.ProductName(),
-                        Price = (int)f.Finance.Amount(100, 10000),
-                        BrandId = f.PickRandom(new[] { 1, 2, 3, 4, 5 }),
-                        ConditionId = f.PickRandom(new[] { 1, 2 })
-                    })
-                    .Generate(100);
-
-                foreach (var product in products)
-                {
-                    await _productRepository.CreateProduct(product);
-                }
-            }
-        }
-
-
-
 
     }
 }

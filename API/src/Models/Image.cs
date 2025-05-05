@@ -12,11 +12,9 @@ namespace API.src.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        public string? Name { get; set; }
-
         [Required]
-        public required string Url { get; set; } = string.Empty;
+        public required string Url { get; set; }
+        public string? Name { get; set; }
 
     }
 }
