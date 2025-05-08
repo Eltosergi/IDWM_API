@@ -32,6 +32,7 @@ namespace API.src.Services
             {
                new(JwtRegisteredClaimNames.Email, user.Email!),
                new(JwtRegisteredClaimNames.GivenName, user.Name),
+               new(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
                new(ClaimTypes.Role, Role),
             };
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

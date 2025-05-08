@@ -105,6 +105,16 @@ namespace API.src.Repository
             return UserMapper.UserToAuthenticatedDto(user, token);
 
         }
+
+        public async Task<User> GetUserByIdAsync(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                throw new KeyNotFoundException("Usuario no encontrado");
+            }
+            return user;
+        }
     }
 
 }

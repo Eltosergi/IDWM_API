@@ -42,5 +42,15 @@ namespace API.src.Mappers
                 Email = dto.Email,
                 BirthDate = dto.BirthDate
             };
+
+        public static GetExampleUserDTO UserToGetExampleUserDto(User user) =>
+            new()
+            {
+                Name = user.Name,
+                LastName = user.LastName,
+                Email = user.Email ?? string.Empty,
+                IsActive = user.IsActive
+            };
+            
     }
 }
