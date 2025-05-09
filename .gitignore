@@ -5,6 +5,10 @@
 
 appsettings.json
 
+# SQLite write-ahead logging files
+*.db-shm
+*.db-wal
+
 #Visual Paradigm
 *.bak*
 

@@ -1,15 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+
+using API.src.Interface;
+using API.src.Mappers;
+using API.src.Repository;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace API.src.Controllers
 {
-    public class ExampleController : BaseController
+    public class ExampleController(IUserRepository userRepository) : BaseController
     {
+        private readonly IUserRepository _userRepository = userRepository;
+
         [Authorize]
         [HttpGet("example")]
         public IActionResult GetExample()
@@ -38,6 +46,16 @@ namespace API.src.Controllers
             }
             return Ok("Buenos días Admin, pudiste acceder a la ruta protegida por JWT y el rol Admin");
 
+        }
+        [HttpGet("User")]
+        [Authorize]
+        public async Task<IActionResult> GetUser()
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)
+                                ?? throw new ArgumentNullException("User ID not found"));
+            var user = await _userRepository.GetUserByIdAsync(userId);
+
+            return Ok(UserMapper.UserToGetExampleUserDto(user));
         }
 
     }
