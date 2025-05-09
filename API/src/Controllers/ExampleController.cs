@@ -45,7 +45,7 @@ namespace API.src.Controllers
                 return StatusCode(403, new { message = "Usted no debería estar aquí, lárguese, no le quiero ver" });
             }
             return Ok("Buenos días Admin, pudiste acceder a la ruta protegida por JWT y el rol Admin");
-           
+
         }
         [HttpGet("User")]
         [Authorize]

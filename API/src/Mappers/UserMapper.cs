@@ -51,6 +51,6 @@ namespace API.src.Mappers
                 Email = user.Email ?? string.Empty,
                 IsActive = user.IsActive
             };
-            
+
     }
 }
