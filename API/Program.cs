@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json.Serialization;
 
 using API.src.Data;
 using API.src.Interface;
@@ -24,7 +25,7 @@ builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<IConditionRepository, ConditionRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-
+builder.Services.AddScoped<IUnitofWork,UnitofWork>();
 
 builder.Services.AddIdentity<User, Role>().AddEntityFrameworkStores<AplicationDbContext>();
 builder.Services.AddAuthentication(options =>
@@ -46,7 +47,10 @@ builder.Services.AddAuthentication(options =>
         RoleClaimType = ClaimTypes.Role
     };
 });
-
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 builder.Services.AddDbContext<AplicationDbContext>(options => options.UseSqlite(connectionString));
 
 builder.Services.AddTransient<Seeder>();
