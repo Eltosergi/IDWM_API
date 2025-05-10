@@ -25,7 +25,9 @@ builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<IConditionRepository, ConditionRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IUnitofWork,UnitofWork>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+
+builder.Services.AddScoped<UnitofWork>();
 
 builder.Services.AddIdentity<User, Role>().AddEntityFrameworkStores<AplicationDbContext>();
 builder.Services.AddAuthentication(options =>

@@ -7,30 +7,28 @@ using API.src.Interface;
 
 namespace API.src.Data
 {
-    public class UnitofWork :IUnitofWork
+    public class UnitofWork 
     {
-        public IUserRepository _userRepository { get; }
-        public IAddressRepository _addressRepository { get; }
-        public IBrandRepository _brandRepository { get; }
-        public IConditionRepository _conditionRepository { get; }
-        public IProductRepository _productRepository { get; }
+        public IUserRepository UserRepository { get; }
+        public IAddressRepository AddressRepository { get; }
+        public IBrandRepository BrandRepository { get; }
+        public IConditionRepository ConditionRepository { get; }
+        public IProductRepository ProductRepository { get; }
         private readonly AplicationDbContext _context;
 
         public UnitofWork(AplicationDbContext context,IUserRepository userRepository,IAddressRepository addressRepository,IBrandRepository brandRepository,IConditionRepository conditionRepository,IProductRepository productRepository)
         {
             _context=context;
-            _userRepository=userRepository;
-            _addressRepository=addressRepository;
-            _brandRepository=brandRepository;
-            _conditionRepository=conditionRepository;
-            _productRepository=productRepository;
+            UserRepository=userRepository;
+            AddressRepository=addressRepository;
+            BrandRepository=brandRepository;
+            ConditionRepository=conditionRepository;
+            ProductRepository=productRepository;
         }
 
-        public async Task<int> Save()
-        => await _context.SaveChangesAsync();
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
+        public async Task<int> SaveChangeAsync() =>  await _context.SaveChangesAsync();
+        
+ 
+        
     }
 }

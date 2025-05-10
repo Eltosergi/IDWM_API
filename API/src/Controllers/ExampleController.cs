@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
+using API.src.Data;
 using API.src.Interface;
 using API.src.Mappers;
 using API.src.Repository;
@@ -14,9 +15,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.src.Controllers
 {
-    public class ExampleController(IUserRepository userRepository) : BaseController
+    public class ExampleController(UnitofWork unitofWork) : BaseController
     {
-        private readonly IUserRepository _userRepository = userRepository;
+        private readonly UnitofWork _unitofWork = unitofWork;
 
         [Authorize]
         [HttpGet("example")]
@@ -53,10 +54,10 @@ namespace API.src.Controllers
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)
                                 ?? throw new ArgumentNullException("User ID not found"));
-            var user = await _userRepository.GetUserByIdAsync(userId);
+            var user = await _unitofWork.UserRepository.GetUserByIdAsync(userId);
 
             return Ok(UserMapper.UserToGetExampleUserDto(user));
         }
 
-    }
+    }   
 }
