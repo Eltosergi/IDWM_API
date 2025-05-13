@@ -5,8 +5,7 @@ namespace API.src.Models
 {
     public class CartProduct
     {
-        [Required]
-        public required int CartId { get; set; }
+        public int CartId { get; set; }
         [ForeignKey("CartId")]
         public Cart? Cart { get; set; }
 

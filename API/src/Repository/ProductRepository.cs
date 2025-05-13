@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 using API.src.Data;
@@ -31,6 +32,12 @@ namespace API.src.Repository
             };
             _context.Products.Add(newProduct);
             return _context.SaveChangesAsync().ContinueWith(t => t.Result > 0);
+        }
+
+        public async Task<Product> GetProductByIdAsync(int id)
+        {
+           var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id) ??  throw new ArgumentException("Product not found");;
+           return product;
         }
 
         public async Task<bool> isEmpty()

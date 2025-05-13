@@ -14,9 +14,10 @@ namespace API.src.Data
         public IBrandRepository BrandRepository { get; }
         public IConditionRepository ConditionRepository { get; }
         public IProductRepository ProductRepository { get; }
+        public ICartRepository CartRepository { get; }
         private readonly AplicationDbContext _context;
 
-        public UnitofWork(AplicationDbContext context,IUserRepository userRepository,IAddressRepository addressRepository,IBrandRepository brandRepository,IConditionRepository conditionRepository,IProductRepository productRepository)
+        public UnitofWork(AplicationDbContext context,IUserRepository userRepository,IAddressRepository addressRepository,IBrandRepository brandRepository,IConditionRepository conditionRepository,IProductRepository productRepository, ICartRepository cartRepository)
         {
             _context=context;
             UserRepository=userRepository;
@@ -24,6 +25,7 @@ namespace API.src.Data
             BrandRepository=brandRepository;
             ConditionRepository=conditionRepository;
             ProductRepository=productRepository;
+            CartRepository=cartRepository;
         }
 
         public async Task<int> SaveChangeAsync() =>  await _context.SaveChangesAsync();

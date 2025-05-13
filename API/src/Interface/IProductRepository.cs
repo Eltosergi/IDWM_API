@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using API.src.DTOs;
+using API.src.Models;
 
 namespace API.src.Interface
 {
@@ -12,5 +13,6 @@ namespace API.src.Interface
         public Task<bool> isEmpty();
         public Task<bool> CreateProduct(CreateProductDTO product);
 
+        public Task<Product> GetProductByIdAsync(int id);
     }
 }
