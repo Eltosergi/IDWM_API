@@ -7,7 +7,7 @@ using API.src.Interface;
 
 namespace API.src.Data
 {
-    public class UnitofWork 
+    public class UnitofWork
     {
         public IUserRepository UserRepository { get; }
         public IAddressRepository AddressRepository { get; }
@@ -17,20 +17,20 @@ namespace API.src.Data
         public ICartRepository CartRepository { get; }
         private readonly AplicationDbContext _context;
 
-        public UnitofWork(AplicationDbContext context,IUserRepository userRepository,IAddressRepository addressRepository,IBrandRepository brandRepository,IConditionRepository conditionRepository,IProductRepository productRepository, ICartRepository cartRepository)
+        public UnitofWork(AplicationDbContext context, IUserRepository userRepository, IAddressRepository addressRepository, IBrandRepository brandRepository, IConditionRepository conditionRepository, IProductRepository productRepository, ICartRepository cartRepository)
         {
-            _context=context;
-            UserRepository=userRepository;
-            AddressRepository=addressRepository;
-            BrandRepository=brandRepository;
-            ConditionRepository=conditionRepository;
-            ProductRepository=productRepository;
-            CartRepository=cartRepository;
+            _context = context;
+            UserRepository = userRepository;
+            AddressRepository = addressRepository;
+            BrandRepository = brandRepository;
+            ConditionRepository = conditionRepository;
+            ProductRepository = productRepository;
+            CartRepository = cartRepository;
         }
 
-        public async Task<int> SaveChangeAsync() =>  await _context.SaveChangesAsync();
-        
- 
-        
+        public async Task<int> SaveChangeAsync() => await _context.SaveChangesAsync();
+
+
+
     }
 }

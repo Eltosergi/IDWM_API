@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.src.Data.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
-    [Migration("20250504202644_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20250518034056_firtMigration")]
+    partial class firtMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,10 +78,12 @@ namespace API.src.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Total")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -199,14 +201,14 @@ namespace API.src.Data.Migrations
                     b.Property<int?>("BrandId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ConditionId")
+                    b.Property<int?>("ConditionId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ImageId")
+                    b.Property<int?>("ImageId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsActive")
@@ -289,9 +291,6 @@ namespace API.src.Data.Migrations
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("CartId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
@@ -359,8 +358,6 @@ namespace API.src.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
-
-                    b.HasIndex("CartId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -493,6 +490,17 @@ namespace API.src.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("API.src.Models.Cart", b =>
+                {
+                    b.HasOne("API.src.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("API.src.Models.CartProduct", b =>
                 {
                     b.HasOne("API.src.Models.Cart", "Cart")
@@ -550,15 +558,11 @@ namespace API.src.Data.Migrations
 
                     b.HasOne("API.src.Models.Condition", "Condition")
                         .WithMany()
-                        .HasForeignKey("ConditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ConditionId");
 
                     b.HasOne("API.src.Models.Image", "Image")
                         .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ImageId");
 
                     b.Navigation("Brand");
 
@@ -572,14 +576,6 @@ namespace API.src.Data.Migrations
                     b.HasOne("API.src.Models.Address", "PreferredAddress")
                         .WithMany()
                         .HasForeignKey("AddressId");
-
-                    b.HasOne("API.src.Models.Cart", "Cart")
-                        .WithMany()
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
 
                     b.Navigation("PreferredAddress");
                 });

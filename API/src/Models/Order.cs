@@ -24,9 +24,5 @@ namespace API.src.Models
 
         public DateTime OrderDate { get; set; } = DateTime.Now;
 
-
-
-
-
     }
 }

@@ -13,7 +13,7 @@ namespace API.src.Interface
     public interface IUserRepository
     {
         Task<bool> isEmpty();
-        Task<bool> CreateAdmin(CreateUserDTO userDTO);
+        Task<bool> SeederUser(SeederUserDTO userDTO, string role);
 
         Task<AuthenticatedUserDto> RegisterUserAsync(RegisterDTO newUser);
         Task<AuthenticatedUserDto> LoginUserAsync(LoginDTO loginDto);

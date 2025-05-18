@@ -7,7 +7,7 @@ namespace API.src.DTOs
 {
     public class CartProductDTO
     {
-        public required string Name { get; set; } 
-        public required int Amount { get; set; }
+        public required ProductDTO Product { get; set; } = new();
+        public required int Quantity { get; set; }
     }
 }

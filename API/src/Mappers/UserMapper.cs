@@ -32,7 +32,7 @@ namespace API.src.Mappers
                 LastAccess = user.lastLogin,
                 IsActive = user.IsActive
             };
-        public static User CreateUserToUser(CreateUserDTO dto) =>
+        public static User CreateUserToUser(SeederUserDTO dto) =>
             new()
             {
                 UserName = dto.Email,
@@ -49,22 +49,23 @@ namespace API.src.Mappers
                 Email = user.Email ?? string.Empty,
                 IsActive = user.IsActive
             };
-        public static ICollection<CartProductDTO> CartToListCartProductDTO(Cart cart){
+        public static ICollection<CartProductDTO> CartToCartProductDTOs(Cart cart)
+        {
+            if (cart == null || cart.Products == null)
+                return new List<CartProductDTO>();
 
-            var cartProduct = cart.Products;
-            
-            ICollection<CartProductDTO> cartProductDTOs = new List<CartProductDTO>();
-            
-            foreach (var product in cartProduct)
+            return cart.Products.Select(cp => new CartProductDTO
             {
-                cartProductDTOs.Add(new CartProductDTO
+                Quantity = cp.Quantity,
+                Product = new ProductDTO
                 {
-                    Name = product.Product?.Name ?? string.Empty,
-                    Amount = product.Quantity
-                });
-            }
-            
-            return cartProductDTOs;
+                    Id = cp.Product?.Id ?? 0,
+                    Name = cp.Product?.Name ?? string.Empty,
+                    Description = cp.Product?.Description,
+                    Price = cp.Product?.Price ?? 0,
+                    ImageUrl = cp.Product?.Image?.Url ?? string.Empty
+                }
+            }).ToList();
         }
     }
 }

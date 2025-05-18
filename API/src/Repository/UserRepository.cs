@@ -32,16 +32,26 @@ namespace API.src.Repository
             return !await _context.Users.AnyAsync();
         }
 
-        public async Task<bool> CreateAdmin(CreateUserDTO userDTO)
+        public async Task<bool> SeederUser(SeederUserDTO userDTO, string role)
         {
             var user = UserMapper.CreateUserToUser(userDTO);
-
             await _userManager.CreateAsync(user, userDTO.Password);
 
-            var roleAdminResult = await _userManager.AddToRoleAsync(user, "Admin");
-            var roleUserResult = await _userManager.AddToRoleAsync(user, "User");
+            var cart = new Cart
+            {
+                UserId = user.Id,
+            };
 
-            return roleAdminResult.Succeeded && roleUserResult.Succeeded;
+            await _context.Carts.AddAsync(cart);
+            await _context.SaveChangesAsync();
+
+            if (role == "Admin" || role == "User")
+            {
+                await _userManager.AddToRoleAsync(user, role);
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<AuthenticatedUserDto> RegisterUserAsync(RegisterDTO newUser)
@@ -62,6 +72,7 @@ namespace API.src.Repository
             }
 
             var roleUser = await _userManager.AddToRoleAsync(user, "User");
+
             if (!roleUser.Succeeded)
             {
                 throw new InvalidOperationException("Error al asignar el rol: " + string.Join(", ", roleUser.Errors.Select(e => e.Description)));
@@ -70,6 +81,15 @@ namespace API.src.Repository
 
             var role = await _userManager.GetRolesAsync(user);
             var roleName = role.FirstOrDefault() ?? "User";
+
+            var cart = new Cart
+            {
+                UserId = user.Id,
+            };
+
+            await _context.Carts.AddAsync(cart);
+            await _context.SaveChangesAsync();
+
 
             var token = _tokenService.GenerateToken(user, roleName);
             return UserMapper.UserToAuthenticatedDto(user, token);
@@ -108,11 +128,8 @@ namespace API.src.Repository
 
         public async Task<User> GetUserByIdAsync(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                throw new KeyNotFoundException("Usuario no encontrado");
-            }
+            var user = await _context.Users.FindAsync(id) ?? throw new ArgumentException("User not found");
+
             return user;
         }
 

@@ -24,7 +24,7 @@ namespace API.src.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest(new ApiResponse<string>(false, "Datos inválidos", null, ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList()));
-                var userDto = await  _unitofWork.UserRepository.RegisterUserAsync(newUser);
+                var userDto = await _unitofWork.UserRepository.RegisterUserAsync(newUser);
                 return Ok(new ApiResponse<AuthenticatedUserDto>(true, "Usuario registrado exitosamente", userDto));
             }
             catch (ArgumentException ex)
@@ -52,7 +52,7 @@ namespace API.src.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(new ApiResponse<string>(false, "Datos inválidos", null, ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList()));
 
-                var userDto = await  _unitofWork.UserRepository.LoginUserAsync(loginDto);
+                var userDto = await _unitofWork.UserRepository.LoginUserAsync(loginDto);
                 return Ok(new ApiResponse<AuthenticatedUserDto>(true, "Login exitoso", userDto));
             }
             catch (ArgumentException ex)

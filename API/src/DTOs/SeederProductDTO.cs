@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace API.src.DTOs
 {
-    public class CreateProductDTO
+    public class SeederProductDTO
     {
         [Required]
         public required string Name { get; set; } = string.Empty;

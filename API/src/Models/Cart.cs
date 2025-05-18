@@ -8,8 +8,14 @@ namespace API.src.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int Total { get; set; } = 0;
+
+        [Required]
+        public required int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User? User { get; set; }
 
         public ICollection<CartProduct> Products { get; set; } = new List<CartProduct>();
+
+        public int Total => Products.Sum(p => p.TotalPrice);
     }
 }

@@ -22,12 +22,12 @@ namespace API.src.Models
         public int Stock { get; set; } = 0;
         public bool IsActive { get; set; } = false;
 
-        public int ConditionId { get; set; }
+        public int? ConditionId { get; set; }
         [ForeignKey("ConditionId")]
         public Condition? Condition { get; set; }
 
         //Imagen Preferencial del producto
-        public int ImageId { get; set; }
+        public int? ImageId { get; set; }
         [ForeignKey("ImageId")]
         public Image? Image { get; set; }
         //Imagenes del producto

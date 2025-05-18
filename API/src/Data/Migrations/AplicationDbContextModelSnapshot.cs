@@ -51,7 +51,7 @@ namespace API.src.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("API.src.Models.Brand", b =>
@@ -66,7 +66,7 @@ namespace API.src.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("API.src.Models.Cart", b =>
@@ -75,12 +75,14 @@ namespace API.src.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Total")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Carts", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("API.src.Models.CartProduct", b =>
@@ -98,7 +100,7 @@ namespace API.src.Data.Migrations
 
                     b.HasIndex("CartId");
 
-                    b.ToTable("CartProducts", (string)null);
+                    b.ToTable("CartProducts");
                 });
 
             modelBuilder.Entity("API.src.Models.Category", b =>
@@ -113,7 +115,7 @@ namespace API.src.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("API.src.Models.Condition", b =>
@@ -128,7 +130,7 @@ namespace API.src.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Conditions", (string)null);
+                    b.ToTable("Conditions");
                 });
 
             modelBuilder.Entity("API.src.Models.Image", b =>
@@ -151,7 +153,7 @@ namespace API.src.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Images", (string)null);
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("API.src.Models.Order", b =>
@@ -184,7 +186,7 @@ namespace API.src.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("API.src.Models.Product", b =>
@@ -196,14 +198,14 @@ namespace API.src.Data.Migrations
                     b.Property<int?>("BrandId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ConditionId")
+                    b.Property<int?>("ConditionId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ImageId")
+                    b.Property<int?>("ImageId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsActive")
@@ -227,7 +229,7 @@ namespace API.src.Data.Migrations
 
                     b.HasIndex("ImageId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("API.src.Models.Role", b =>
@@ -285,9 +287,6 @@ namespace API.src.Data.Migrations
 
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -357,8 +356,6 @@ namespace API.src.Data.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.HasIndex("CartId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -381,7 +378,7 @@ namespace API.src.Data.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("CategoryProduct", (string)null);
+                    b.ToTable("CategoryProduct");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -490,6 +487,17 @@ namespace API.src.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("API.src.Models.Cart", b =>
+                {
+                    b.HasOne("API.src.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("API.src.Models.CartProduct", b =>
                 {
                     b.HasOne("API.src.Models.Cart", "Cart")
@@ -547,15 +555,11 @@ namespace API.src.Data.Migrations
 
                     b.HasOne("API.src.Models.Condition", "Condition")
                         .WithMany()
-                        .HasForeignKey("ConditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ConditionId");
 
                     b.HasOne("API.src.Models.Image", "Image")
                         .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ImageId");
 
                     b.Navigation("Brand");
 
@@ -569,14 +573,6 @@ namespace API.src.Data.Migrations
                     b.HasOne("API.src.Models.Address", "PreferredAddress")
                         .WithMany()
                         .HasForeignKey("AddressId");
-
-                    b.HasOne("API.src.Models.Cart", "Cart")
-                        .WithMany()
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
 
                     b.Navigation("PreferredAddress");
                 });

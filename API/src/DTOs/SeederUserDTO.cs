@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace API.src.DTOs
 {
-    public class CreateUserDTO
+    public class SeederUserDTO
     {
         [Required]
         public required string Name { get; set; }

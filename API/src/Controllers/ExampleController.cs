@@ -59,5 +59,5 @@ namespace API.src.Controllers
             return Ok(UserMapper.UserToGetExampleUserDto(user));
         }
 
-    }   
+    }
 }

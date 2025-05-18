@@ -25,16 +25,12 @@ namespace API.src.Models
 
         public bool IsActive { get; set; } = true;
         public string? ResonDeactivation { get; set; }
-        public List<Order> Orders { get; set; } = new List<Order>();
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
         //User Address
         public ICollection<Address> Addresses { get; set; } = new List<Address>();
         //Prefered Address
         public int? AddressId { get; set; }
         [ForeignKey("AddressId")]
         public Address? PreferredAddress { get; set; }
-
-        //User Cart
-        public Cart Cart { get; set; } = new Cart();
-
     }
 }

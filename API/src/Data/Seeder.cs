@@ -15,16 +15,17 @@ namespace API.src.Data
         private readonly IUserRepository _userRepository;
         private readonly IBrandRepository _brandRepository;
         private readonly IConditionRepository _conditionRepository;
-
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
         private readonly Faker _faker;
 
-        public Seeder(IUserRepository userRepository, IBrandRepository brandRepository, IConditionRepository conditionRepository, IProductRepository productRepository)
+        public Seeder(IUserRepository userRepository, IBrandRepository brandRepository, IConditionRepository conditionRepository, IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
             _userRepository = userRepository;
             _brandRepository = brandRepository;
             _conditionRepository = conditionRepository;
+            _categoryRepository = categoryRepository;
 
             _faker = new Faker("es_MX");
         }
@@ -33,7 +34,9 @@ namespace API.src.Data
         {
             await SeedBrands();
             await SeedConditions();
+            await SeedCategories();
             await SeedUsers();
+            await SeedProducts();
 
         }
 
@@ -41,7 +44,7 @@ namespace API.src.Data
         {
             if (await _userRepository.isEmpty())
             {
-                var AdminUser = new CreateUserDTO
+                var AdminUser = new SeederUserDTO
                 {
                     Name = "Admin",
                     LastName = "Admin",
@@ -50,22 +53,21 @@ namespace API.src.Data
                     Password = "@Admin1234"
                 };
 
-                await _userRepository.CreateAdmin(AdminUser);
+                await _userRepository.SeederUser(AdminUser, "Admin");
+
             }
+
         }
 
         public async Task SeedBrands()
         {
             if (await _brandRepository.isEmpty())
             {
-                var brandFaker = new Faker<string>()
-                    .CustomInstantiator(f => f.Company.CompanyName());
-
-                var fakeBrands = brandFaker.Generate(10);
-
-                foreach (var brand in fakeBrands.Distinct())
+                for (int i = 0; i < 10; i++)
                 {
-                    await _brandRepository.AddBrand(brand);
+                    var brandName = _faker.Commerce.ProductAdjective();
+
+                    await _brandRepository.AddBrand(brandName);
                 }
             }
         }
@@ -79,5 +81,42 @@ namespace API.src.Data
             }
         }
 
+        public async Task SeedProducts()
+        {
+            if (await _productRepository.isEmpty())
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    var product = new SeederProductDTO
+                    {
+                        Name = _faker.Commerce.ProductName(),
+                        Price = _faker.Random.Int(100, 10000),
+                        BrandId = _faker.Random.Int(1, 10),
+                        ConditionId = _faker.Random.Int(1, 2)
+                    };
+
+                    var result = await _productRepository.SeedProduct(product);
+                    if (!result)
+                    {
+                        throw new Exception("Error al crear el producto");
+                    }
+
+
+
+                }
+            }
+        }
+
+        public async Task SeedCategories()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                var categoryName = _faker.Commerce.Categories(1).FirstOrDefault();
+                if (categoryName != null)
+                {
+                    await _categoryRepository.SeedCategory(categoryName);
+                }
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace API.src.Interface
     public interface IProductRepository
     {
         public Task<bool> isEmpty();
-        public Task<bool> CreateProduct(CreateProductDTO product);
+        public Task<bool> SeedProduct(SeederProductDTO product);
 
         public Task<Product> GetProductByIdAsync(int id);
     }
