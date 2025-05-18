@@ -37,20 +37,12 @@ namespace API.src.Repository
             var user = UserMapper.CreateUserToUser(userDTO);
             await _userManager.CreateAsync(user, userDTO.Password);
 
-            var cart = new Cart
-            {
-                UserId = user.Id,
-            };
-
-            await _context.Carts.AddAsync(cart);
-            await _context.SaveChangesAsync();
-
             if (role == "Admin" || role == "User")
             {
                 await _userManager.AddToRoleAsync(user, role);
                 return true;
             }
-
+            await _context.SaveChangesAsync();
             return false;
         }
 
@@ -82,14 +74,7 @@ namespace API.src.Repository
             var role = await _userManager.GetRolesAsync(user);
             var roleName = role.FirstOrDefault() ?? "User";
 
-            var cart = new Cart
-            {
-                UserId = user.Id,
-            };
-
-            await _context.Carts.AddAsync(cart);
             await _context.SaveChangesAsync();
-
 
             var token = _tokenService.GenerateToken(user, roleName);
             return UserMapper.UserToAuthenticatedDto(user, token);

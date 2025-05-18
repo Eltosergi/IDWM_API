@@ -23,13 +23,15 @@ namespace API.src.Repository
         }
         public async Task<InsertionProdutCartDTO> AddProductToCart(int userId, int productId)
         {
-            var user = await _userRepository.GetUserByIdAsync(userId) ?? throw new ArgumentException("User not found");
-            var product = await _productRepository.GetProductByIdAsync(productId) ?? throw new ArgumentException("Product not found");
+            var user = await _context.Users
+                .Include(u => u.Cart)
+                    .ThenInclude(c => c.Products)
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
-            var cart = await _context.Carts
-                .Include(c => c.Products)
-                .FirstOrDefaultAsync(c => c.UserId == userId)
-                ?? throw new ArgumentException("Cart not found");
+            var product = await _productRepository.GetProductByIdAsync(productId)
+                ?? throw new ArgumentException("Product not found");
+
+            var cart = user?.Cart ?? throw new ArgumentException("Cart not found");
 
             var existingCartProduct = cart.Products.FirstOrDefault(cp => cp.ProductId == productId);
 
@@ -49,21 +51,20 @@ namespace API.src.Repository
             }
 
             _context.Update(cart);
-
             await _context.SaveChangesAsync();
-
-
 
             return ProductMapper.UserProductToInsertionProductCartDTO(user, product);
         }
 
         public async Task<ICollection<CartProductDTO>> GetCartByUserId(int userId)
         {
-            var cart = await _context.Carts
-            .Include(c => c.Products)
-                .ThenInclude(cp => cp.Product)
-            .FirstOrDefaultAsync(c => c.UserId == userId)
-            ?? throw new ArgumentException("Cart not found");
+            var user = await _context.Users
+                .Include(u => u.Cart)
+                    .ThenInclude(c => c.Products)
+                        .ThenInclude(cp => cp.Product)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            var cart = user?.Cart ?? throw new ArgumentException("Cart not found");
 
             return UserMapper.CartToCartProductDTOs(cart);
         }

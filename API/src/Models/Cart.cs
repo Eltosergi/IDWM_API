@@ -9,11 +9,6 @@ namespace API.src.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
-        public required int UserId { get; set; }
-        [ForeignKey("UserId")]
-        public User? User { get; set; }
-
         public ICollection<CartProduct> Products { get; set; } = new List<CartProduct>();
 
         public int Total => Products.Sum(p => p.TotalPrice);

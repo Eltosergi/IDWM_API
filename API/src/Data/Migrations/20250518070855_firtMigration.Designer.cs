@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.src.Data.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
-    [Migration("20250518034056_firtMigration")]
+    [Migration("20250518070855_firtMigration")]
     partial class firtMigration
     {
         /// <inheritdoc />
@@ -78,12 +78,7 @@ namespace API.src.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -291,6 +286,9 @@ namespace API.src.Data.Migrations
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("CartId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
@@ -358,6 +356,8 @@ namespace API.src.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
+
+                    b.HasIndex("CartId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -490,17 +490,6 @@ namespace API.src.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("API.src.Models.Cart", b =>
-                {
-                    b.HasOne("API.src.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("API.src.Models.CartProduct", b =>
                 {
                     b.HasOne("API.src.Models.Cart", "Cart")
@@ -576,6 +565,14 @@ namespace API.src.Data.Migrations
                     b.HasOne("API.src.Models.Address", "PreferredAddress")
                         .WithMany()
                         .HasForeignKey("AddressId");
+
+                    b.HasOne("API.src.Models.Cart", "Cart")
+                        .WithMany()
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
 
                     b.Navigation("PreferredAddress");
                 });

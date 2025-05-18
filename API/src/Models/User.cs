@@ -32,5 +32,10 @@ namespace API.src.Models
         public int? AddressId { get; set; }
         [ForeignKey("AddressId")]
         public Address? PreferredAddress { get; set; }
+
+        //User Cart
+        [Required]
+        public required Cart Cart { get; set; }
+
     }
 }

@@ -19,6 +19,7 @@ namespace API.src.Mappers
                 Email = dto.Email,
                 PhoneNumber = dto.Phone,
                 BirthDate = dto.BirthDate,
+                Cart = new Cart()
             };
         public static AuthenticatedUserDto UserToAuthenticatedDto(User user, string token) =>
             new()
@@ -39,7 +40,8 @@ namespace API.src.Mappers
                 Name = dto.Name,
                 LastName = dto.LastName,
                 Email = dto.Email,
-                BirthDate = dto.BirthDate
+                BirthDate = dto.BirthDate,
+                Cart = new Cart()
             };
         public static GetExampleUserDTO UserToGetExampleUserDto(User user) =>
             new()
