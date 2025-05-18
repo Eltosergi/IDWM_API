@@ -200,9 +200,6 @@ namespace API.src.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
@@ -221,8 +218,6 @@ namespace API.src.Data.Migrations
                     b.HasIndex("BrandId");
 
                     b.HasIndex("ConditionId");
-
-                    b.HasIndex("ImageId");
 
                     b.ToTable("Products");
                 });
@@ -275,9 +270,6 @@ namespace API.src.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("AddressId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateOnly>("BirthDate")
@@ -351,8 +343,6 @@ namespace API.src.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
 
                     b.HasIndex("CartId");
 
@@ -546,23 +536,13 @@ namespace API.src.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ConditionId");
 
-                    b.HasOne("API.src.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
                     b.Navigation("Brand");
 
                     b.Navigation("Condition");
-
-                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("API.src.Models.User", b =>
                 {
-                    b.HasOne("API.src.Models.Address", "PreferredAddress")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
                     b.HasOne("API.src.Models.Cart", "Cart")
                         .WithMany()
                         .HasForeignKey("CartId")
@@ -570,8 +550,6 @@ namespace API.src.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Cart");
-
-                    b.Navigation("PreferredAddress");
                 });
 
             modelBuilder.Entity("CategoryProduct", b =>

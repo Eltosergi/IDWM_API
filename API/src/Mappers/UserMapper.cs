@@ -65,7 +65,7 @@ namespace API.src.Mappers
                     Name = cp.Product?.Name ?? string.Empty,
                     Description = cp.Product?.Description,
                     Price = cp.Product?.Price ?? 0,
-                    ImageUrl = cp.Product?.Image?.Url ?? string.Empty
+
                 }
             }).ToList();
         }
