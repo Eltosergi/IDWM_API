@@ -96,6 +96,7 @@ namespace API.src.Controllers
                 return BadRequest(new ApiResponse<string>(false, ex.Message));
             }
         }
+
         [HttpGet("GetAddress")]
         [Authorize]
         public async Task<IActionResult> GetAddress()
@@ -143,5 +144,42 @@ namespace API.src.Controllers
                 return BadRequest(new ApiResponse<string>(false, ex.Message));
             }
         }
+
+        [HttpPost("Purchase")]
+        [Authorize]
+        public async Task<IActionResult> Purchase([FromBody] SelectionAddressDTO dto)
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)
+                                ?? throw new ArgumentNullException("User ID not found"));
+
+                var result = await _unitofWork.OrderRepository.AddOrder(dto.Selection, userId);
+
+                if (!result)
+                {
+                    return BadRequest(new ApiResponse<string>(false, "Error al realizar la compra"));
+                }
+
+                return Ok(new ApiResponse<string>(true, "Compra realizada correctamente"));
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                return BadRequest(new ApiResponse<string>(false, ex.Message));
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new ApiResponse<string>(false, ex.Message));
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(new ApiResponse<string>(false, ex.Message));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new ApiResponse<string>(false, "Ha ocurrido un error inesperado"));
+            }
+        }
+
     }
 }
