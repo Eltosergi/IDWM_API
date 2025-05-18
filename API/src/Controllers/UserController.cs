@@ -72,6 +72,31 @@ namespace API.src.Controllers
 
         }
 
+        [HttpDelete("RemoveProduct")]
+        [Authorize]
+        public async Task<IActionResult> RemoveProductFromCart([FromBody] RemoveProduct productdto)
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)
+                                ?? throw new ArgumentNullException("User ID not found"));
+
+                var result = await _unitofWork.CartRepository.RemoveProductFromCart(userId, productdto.ProductId);
+
+                if (!result)
+                {
+                    return NotFound(new ApiResponse<string>(false, "Producto no encontrado en el carrito"));
+                }
+
+                return Ok(new ApiResponse<string>(true, "Producto eliminado del carrito"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse<string>(false, ex.Message));
+            }
+        }
+
+
         [HttpPost("AddAddress")]
         [Authorize]
         public async Task<IActionResult> AddAddress([FromBody] AddressDTO addressDTO)

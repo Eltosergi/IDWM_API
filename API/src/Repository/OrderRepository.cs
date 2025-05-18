@@ -48,6 +48,7 @@ namespace API.src.Repository
             };
 
             _context.Orders.Add(order);
+            user.Orders.Add(order);
             user.Cart = new Cart { Products = new List<CartProduct>() };
 
             await _context.SaveChangesAsync();

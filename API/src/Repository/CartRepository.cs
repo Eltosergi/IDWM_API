@@ -69,7 +69,40 @@ namespace API.src.Repository
             return UserMapper.CartToCartProductDTOs(cart);
         }
 
+        public async Task<bool> RemoveProductFromCart(int userId, int productId)
+        {
+            var user = await _context.Users
+                .Include(u => u.Cart)
+                    .ThenInclude(c => c.Products)
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
+            if (user == null)
+                return false;
+
+            var cart = user?.Cart ?? throw new ArgumentException("Cart not found");
+
+            var productToRemove = cart.Products.FirstOrDefault(cp => cp.ProductId == productId);
+
+            if (productToRemove == null)
+                return false;
+
+            if (productToRemove.Quantity > 1)
+            {
+                productToRemove.Quantity -= 1;
+                _context.Update(cart);
+            }
+            else
+            {
+                cart.Products.Remove(productToRemove);
+                _context.Remove(productToRemove);
+            }
+
+
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
 
     }
 }

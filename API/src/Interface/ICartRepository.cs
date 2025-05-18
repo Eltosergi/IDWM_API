@@ -11,5 +11,6 @@ namespace API.src.Interface
     {
         public Task<ICollection<CartProductDTO>> GetCartByUserId(int userId);
         public Task<InsertionProdutCartDTO> AddProductToCart(int userId, int productId);
+        public Task<bool> RemoveProductFromCart(int userId, int productId);
     }
 }
