@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace API.src.DTOs
 {
-    public class CreateAddressDTO
+    public class AddressDTO
     {
         [Required]
         public required string Street { get; set; } = string.Empty;
@@ -22,5 +22,7 @@ namespace API.src.DTOs
 
         [Required]
         public required int PostalCode { get; set; }
+
+        public string? Department { get; set; } = string.Empty;
     }
 }

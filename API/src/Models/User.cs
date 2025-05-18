@@ -28,10 +28,7 @@ namespace API.src.Models
         public ICollection<Order> Orders { get; set; } = new List<Order>();
         //User Address
         public ICollection<Address> Addresses { get; set; } = new List<Address>();
-        //Prefered Address
-        public int? AddressId { get; set; }
-        [ForeignKey("AddressId")]
-        public Address? PreferredAddress { get; set; }
+
 
         //User Cart
         [Required]
