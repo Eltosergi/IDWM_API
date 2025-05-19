@@ -1,11 +1,8 @@
+using System.Security.Claims;
 using API.src.Data;
 using API.src.DTOs;
 using API.src.Helpers;
-using API.src.Interface;
-using API.src.Mappers;
-using API.src.Models;
-
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -65,6 +62,39 @@ namespace API.src.Controllers
                 return StatusCode(500, new ApiResponse<string>(false, "Error interno del servidor", null, new List<string> { ex.Message }));
             }
         }
+        
+        [Authorize] 
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO changePasswordDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(new ApiResponse<string>(false, "Datos inválidos", null, ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList()));
 
+
+                var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)
+                                ?? throw new ArgumentNullException("User ID not found"));
+               
+                await _unitofWork.UserRepository.ChangePasswordAsync(changePasswordDto, userId);
+
+                return Ok(new ApiResponse<string>(true, "Contraseña cambiada exitosamente"));
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogError(ex, "Error de validación al cambiar contraseña");
+                return BadRequest(new ApiResponse<string>(false, ex.Message));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logger.LogWarning(ex, "Intento de cambio de contraseña con datos incorrectos");
+                return Unauthorized(new ApiResponse<string>(false, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error inesperado al cambiar la contraseña");
+                return StatusCode(500, new ApiResponse<string>(false, "Ocurrió un error inesperado"));
+            }
+        }
     }
 }

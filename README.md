@@ -132,8 +132,7 @@ dotnet tool install --global dotnet-ef
 - **Ayudante**: *[Ferdando Chavez]*  
 - **Estudiantes**:  
   - *[Sergio Parada]*  
-  - *[Daniel Cruz]*  
-  - *[Ivan Dorador]*  
+
 
 ---
 

@@ -118,6 +118,26 @@ namespace API.src.Repository
             return user;
         }
 
+        public async Task<bool> ChangePasswordAsync(ChangePasswordDTO changePasswordDto, int userId)
+        {
+            if (changePasswordDto == null || 
+            string.IsNullOrWhiteSpace(changePasswordDto.CurrentPassword) || 
+            string.IsNullOrWhiteSpace(changePasswordDto.NewPassword))
+            {
+                throw new ArgumentException("Datos de cambio de contraseña inválidos.");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+            {
+                throw new ArgumentException("Usuario no encontrado");
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
+
+            return result.Succeeded;
+        }
+
     }
 
 }

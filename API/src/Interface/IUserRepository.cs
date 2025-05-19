@@ -18,5 +18,7 @@ namespace API.src.Interface
         Task<AuthenticatedUserDto> RegisterUserAsync(RegisterDTO newUser);
         Task<AuthenticatedUserDto> LoginUserAsync(LoginDTO loginDto);
         Task<User> GetUserByIdAsync(int id);
+
+        Task<bool> ChangePasswordAsync(ChangePasswordDTO changePasswordDto, int userId);
     }
 }
