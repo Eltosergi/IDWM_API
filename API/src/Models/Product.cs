@@ -20,7 +20,7 @@ namespace API.src.Models
 
         public string Description { get; set; } = string.Empty;
         public int Stock { get; set; } = 0;
-        public bool IsActive { get; set; } = false;
+        public bool IsActive { get; set; } = true;
 
         public int? ConditionId { get; set; }
         [ForeignKey("ConditionId")]

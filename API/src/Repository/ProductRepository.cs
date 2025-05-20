@@ -55,6 +55,66 @@ namespace API.src.Repository
         {
             return !await _context.Products.AnyAsync();
         }
+
+        public async Task<SuccessProduct> CreateProduct(CreateProductDTO createProductDTO)
+        {
+            var SuccessProduct = new SuccessProduct
+            {
+                Name = createProductDTO.Name,
+                Price = createProductDTO.Price,
+                Description = createProductDTO.Description,
+                Stock = createProductDTO.Stock,
+                Condition = createProductDTO.Condition,
+                Brand = createProductDTO.Brand
+            };
+            var condition = _context.Conditions.FirstOrDefault(c => c.Name == createProductDTO.Condition);
+            if (condition == null)
+            {
+                condition = new Condition { Name = createProductDTO.Condition };
+                _context.Conditions.Add(condition);
+                _context.SaveChanges();
+            }
+
+            var brand = _context.Brands.FirstOrDefault(b => b.Name == createProductDTO.Brand);
+            if (brand == null)
+            {
+                brand = new Brand { Name = createProductDTO.Brand };
+                _context.Brands.Add(brand);
+                _context.SaveChanges();
+            }
+
+            var categories = new List<Category>();
+            foreach (var categoryName in createProductDTO.Categories)
+            {
+                var category = await _context.Categories.FirstOrDefaultAsync(c => c.Name == categoryName);
+                if (category == null)
+                {
+                    category = new Category { Name = categoryName };
+                    _context.Categories.Add(category);
+                    await _context.SaveChangesAsync();
+                }
+                categories.Add(category);
+            }
+
+            var product = new Product
+            {
+                Name = createProductDTO.Name,
+                Price = createProductDTO.Price,
+                Description = createProductDTO.Description,
+                Stock = createProductDTO.Stock,
+                IsActive = createProductDTO.IsActive,
+                ConditionId = condition.Id,
+                BrandId = brand.Id,
+                Images = createProductDTO.ImageUrl.Select(url => new Image { Url = url }).ToList()
+            };
+
+            categories.ForEach(c => product.Categories.Add(c));
+
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+
+            return SuccessProduct;
+        }
     }
 
 }

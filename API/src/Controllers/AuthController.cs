@@ -1,7 +1,9 @@
 using System.Security.Claims;
+
 using API.src.Data;
 using API.src.DTOs;
 using API.src.Helpers;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -62,8 +64,8 @@ namespace API.src.Controllers
                 return StatusCode(500, new ApiResponse<string>(false, "Error interno del servidor", null, new List<string> { ex.Message }));
             }
         }
-        
-        [Authorize] 
+
+        [Authorize]
         [HttpPost("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO changePasswordDto)
         {
@@ -75,7 +77,7 @@ namespace API.src.Controllers
 
                 var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)
                                 ?? throw new ArgumentNullException("User ID not found"));
-               
+
                 await _unitofWork.UserRepository.ChangePasswordAsync(changePasswordDto, userId);
 
                 return Ok(new ApiResponse<string>(true, "Contraseña cambiada exitosamente"));

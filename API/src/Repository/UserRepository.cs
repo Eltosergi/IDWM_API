@@ -120,8 +120,8 @@ namespace API.src.Repository
 
         public async Task<bool> ChangePasswordAsync(ChangePasswordDTO changePasswordDto, int userId)
         {
-            if (changePasswordDto == null || 
-            string.IsNullOrWhiteSpace(changePasswordDto.CurrentPassword) || 
+            if (changePasswordDto == null ||
+            string.IsNullOrWhiteSpace(changePasswordDto.CurrentPassword) ||
             string.IsNullOrWhiteSpace(changePasswordDto.NewPassword))
             {
                 throw new ArgumentException("Datos de cambio de contraseña inválidos.");

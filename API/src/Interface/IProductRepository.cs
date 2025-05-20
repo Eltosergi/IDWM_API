@@ -12,7 +12,7 @@ namespace API.src.Interface
     {
         public Task<bool> isEmpty();
         public Task<bool> SeedProduct(SeederProductDTO product);
-
         public Task<Product> GetProductByIdAsync(int id);
+        public Task<SuccessProduct> CreateProduct(CreateProductDTO createProductDTO);
     }
 }
