@@ -14,5 +14,12 @@ namespace API.src.Interface
         public Task<bool> SeedProduct(SeederProductDTO product);
         public Task<Product> GetProductByIdAsync(int id);
         public Task<SuccessProduct> CreateProduct(CreateProductDTO createProductDTO);
+
+        public IQueryable<Product> GetQueryableProducts();
+
+        public Task<Product> GetProductById(int id);
+        public Task<SuccessProduct> UpdateProduct(int id, CreateProductDTO product);
+
+        public Task<SuccessProduct> DeleteProduct(int id);
     }
 }

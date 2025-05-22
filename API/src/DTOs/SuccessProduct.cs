@@ -14,5 +14,8 @@ namespace API.src.DTOs
         public required string Condition { get; set; }
         public required string Brand { get; set; }
 
+        public ICollection<string>? Category { get; set; } = new List<string>();
+        public ICollection<string>? Images { get; set; } = new List<string>();
+
     }
 }
