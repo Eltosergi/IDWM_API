@@ -69,5 +69,21 @@ namespace API.src.Mappers
                 }
             }).ToList();
         }
+
+        public static UserDTO UserToUserDTO(User user)
+        {
+            return new UserDTO
+            {
+                FirtsName = user.Name,
+                LastName = user.LastName,
+                Email = user.Email ?? string.Empty,
+                Thelephone = user.PhoneNumber ?? string.Empty,
+                BirthDate = user.BirthDate,
+                RegisteredAt = user.RegisteredAt,
+                LastAccess = user.lastLogin,
+                IsActive = user.IsActive
+            };
+        }
+
     }
 }

@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 using API.src.Data;
 using API.src.DTOs;
+using API.src.Extensions;
 using API.src.Helpers;
+using API.src.Mappers;
+using API.src.RequestHelpers;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.src.Controllers
 {
@@ -206,5 +210,82 @@ namespace API.src.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<ActionResult> GetAll([FromQuery] QueryParamsUser userParams)
+        {
+            var query = _unitofWork.UserRepository.GetQueryableProducts()
+                .Filter(userParams.IsActive, userParams.RegisteredFrom, userParams.RegisteredTo, userParams.Id)
+                .Search(userParams.SearchTerm)
+                .Sort(userParams.OrderBy);
+
+            var total = await query.CountAsync();
+
+            var users = await query
+                .Skip((userParams.PageNumber - 1) * userParams.PageSize)
+                .Take(userParams.PageSize)
+                .ToListAsync();
+
+            var dtos = users.Select(UserMapper.UserToUserDTO).ToList();
+
+            Response.AddPaginationHeader(new PaginationMetaData
+            {
+                CurrentPage = userParams.PageNumber,
+                TotalPages = (int)Math.Ceiling(total / (double)userParams.PageSize),
+                PageSize = userParams.PageSize,
+                TotalCount = total
+            });
+
+            return Ok(new ApiResponse<IEnumerable<UserDTO>>(true, "Usuarios obtenidos correctamente", dtos));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("{id}")]
+
+        public async Task<ActionResult> GetById(int id)
+        {
+            var user = await _unitofWork.UserRepository.GetById(id);
+
+            if (user == null)
+            {
+                return NotFound(new ApiResponse<string>(false, "Usuario no encontrado"));
+            }
+
+            return Ok(new ApiResponse<UserDTO>(true, "Usuario encontrado", user));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
+
+        public async Task<ActionResult> UpdateUser(int id, [FromBody] UserDTO userDto)
+        {
+            if (id != userDto.Id)
+            {
+                return BadRequest(new ApiResponse<string>(false, "ID de usuario no coincide"));
+            }
+
+            var user = await _unitofWork.UserRepository.UpdateUser(userDto);
+            if (user == null)
+            {
+                return NotFound(new ApiResponse<string>(false, "Usuario no encontrado"));
+            }
+
+            return Ok(new ApiResponse<UserDTO>(true, "Usuario actualizado correctamente", user));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteUser(int id, [FromBody] string reason)
+        {
+            var user = await _unitofWork.UserRepository.GetById(id);
+            if (user == null)
+            {
+                return NotFound(new ApiResponse<string>(false, "Usuario no encontrado"));
+            }
+
+            await _unitofWork.UserRepository.DeleteUser(id, reason);
+            return Ok(new ApiResponse<string>(true, "Usuario eliminado correctamente"));
+        }
     }
 }

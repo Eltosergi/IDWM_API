@@ -138,6 +138,68 @@ namespace API.src.Repository
             return result.Succeeded;
         }
 
+        public IQueryable<User> GetQueryableProducts()
+        {
+            return _context.Users.AsQueryable().Include(u => u.Addresses);
+        }
+
+        public async Task<UserDTO> GetById(int id)
+        {
+            var user = await _context.Users
+                .Include(u => u.Addresses)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+            {
+                throw new ArgumentException("Usuario no encontrado");
+            }
+
+            return UserMapper.UserToUserDTO(user);
+        }
+
+        public async Task<UserDTO> UpdateUser(UserDTO user)
+        {
+            var userToUpdate = await _context.Users
+                .Include(u => u.Addresses)
+                .FirstOrDefaultAsync(u => u.Id == user.Id);
+
+            if (userToUpdate == null)
+            {
+                throw new ArgumentException("Usuario no encontrado");
+            }
+
+            userToUpdate.Name = user.FirtsName;
+            userToUpdate.LastName = user.LastName;
+            userToUpdate.Email = user.Email;
+            userToUpdate.PhoneNumber = user.Thelephone;
+            userToUpdate.BirthDate = user.BirthDate ?? DateOnly.FromDateTime(DateTime.UtcNow);
+            userToUpdate.RegisteredAt = DateTime.UtcNow;
+            ;
+            await _context.SaveChangesAsync();
+
+            return UserMapper.UserToUserDTO(userToUpdate);
+
+        }
+
+        public async Task<UserDTO> DeleteUser(int Id, string reason)
+        {
+            var userToDelete = await _context.Users
+                .Include(u => u.Addresses)
+                .FirstOrDefaultAsync(u => u.Id == Id);
+
+            if (userToDelete == null)
+            {
+                throw new ArgumentException("Usuario no encontrado");
+            }
+
+            userToDelete.IsActive = false;
+            userToDelete.ResonDeactivation = reason;
+
+            await _context.SaveChangesAsync();
+
+            return UserMapper.UserToUserDTO(userToDelete);
+
+        }
     }
 
 }

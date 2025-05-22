@@ -20,5 +20,11 @@ namespace API.src.Interface
         Task<User> GetUserByIdAsync(int id);
 
         Task<bool> ChangePasswordAsync(ChangePasswordDTO changePasswordDto, int userId);
+
+        public IQueryable<User> GetQueryableProducts();
+        public Task<UserDTO> GetById(int id);
+        public Task<UserDTO> UpdateUser(UserDTO user);
+
+        public Task<UserDTO> DeleteUser(int Id, string reason);
     }
 }
